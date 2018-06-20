@@ -52,21 +52,21 @@ func (b *Bitmap) SetBit(x, y uint, bit bool) {
 	b.checkBounds(x, y)
 	index := b.getIndex(x, y)
 	offset := b.getOffset(x, y)
-  b.data[index] |= (1 << offset)
+	b.data[index] |= (1 << offset)
 }
 
 func (b *Bitmap) ClearBit(x, y uint) {
 	b.checkBounds(x, y)
 	index := b.getIndex(x, y)
 	offset := b.getOffset(x, y)
-  b.data[index] &^= (1 << offset)
+	b.data[index] &^= (1 << offset)
 }
 
 func (b *Bitmap) FlipBit(x, y uint) {
 	b.checkBounds(x, y)
 	index := b.getIndex(x, y)
 	offset := b.getOffset(x, y)
-  b.data[index] ^= (1 << offset)
+	b.data[index] ^= (1 << offset)
 }
 
 func (b *Bitmap) Clear() {
