@@ -17,11 +17,11 @@ func (g *Grid) NextGen(nextGen *Grid) {
 	for y = 0; y < h; y++ {
 		for x = 0; x < w; x++ {
 			n := g.AliveNeighbors(x, y)
-			if n == 2 && g.Get(x, y) {
-				nextGen.Set(x, y, true)
+			if n == 2 && g.GetBit(x, y) {
+				nextGen.SetBit(x, y, true)
 			}
 			if n == 3 {
-				nextGen.Set(x, y, true)
+				nextGen.SetBit(x, y, true)
 			}
 		}
 	}
@@ -38,28 +38,28 @@ func (g *Grid) ToString() string {
 	for y = 0; y < h; y += 4 {
 		for x = 0; x < w; x += 2 {
 			offset = 0
-			if g.Get(x, y) {
+			if g.GetBit(x, y) {
 				offset += 0x01
 			}
-			if g.Get(x, y+1) {
+			if g.GetBit(x, y+1) {
 				offset += 0x02
 			}
-			if g.Get(x, y+2) {
+			if g.GetBit(x, y+2) {
 				offset += 0x04
 			}
-			if g.Get(x+1, y) {
+			if g.GetBit(x+1, y) {
 				offset += 0x08
 			}
-			if g.Get(x+1, y+1) {
+			if g.GetBit(x+1, y+1) {
 				offset += 0x10
 			}
-			if g.Get(x+1, y+2) {
+			if g.GetBit(x+1, y+2) {
 				offset += 0x20
 			}
-			if g.Get(x, y+3) {
+			if g.GetBit(x, y+3) {
 				offset += 0x40
 			}
-			if g.Get(x+1, y+3) {
+			if g.GetBit(x+1, y+3) {
 				offset += 0x80
 			}
 			s += fmt.Sprintf("%c", unicodeBrailleBase+offset)
@@ -99,7 +99,7 @@ func (g *Grid) IsAlive(x2, y2 int) int {
 	if y < 0 {
 		y = h - 1
 	}
-	if g.Get(x%w, y%h) {
+	if g.GetBit(x%w, y%h) {
 		return 1
 	} else {
 		return 0

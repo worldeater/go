@@ -41,33 +41,32 @@ func (b *Bitmap) Init(width, height uint) {
 	b.height = height
 }
 
-func (b *Bitmap) Get(x, y uint) bool {
+func (b *Bitmap) GetBit(x, y uint) bool {
 	b.checkBounds(x, y)
 	index := b.getIndex(x, y)
 	offset := b.getOffset(x, y)
 	return ((b.data[index] >> offset) & 1) == 1
 }
 
-func (b *Bitmap) Set(x, y uint, bit bool) {
+func (b *Bitmap) SetBit(x, y uint, bit bool) {
 	b.checkBounds(x, y)
 	index := b.getIndex(x, y)
 	offset := b.getOffset(x, y)
-	if bit {
-		b.data[index] |= (1 << offset)
-	} else {
-		b.data[index] ^= (1 << offset)
-	}
+  b.data[index] |= (1 << offset)
 }
 
-func (b *Bitmap) Flip(x, y uint) {
+func (b *Bitmap) ClearBit(x, y uint) {
 	b.checkBounds(x, y)
 	index := b.getIndex(x, y)
 	offset := b.getOffset(x, y)
-	if ((b.data[index] >> offset) & 1) == 1 {
-		b.data[index] ^= (1 << offset)
-	} else {
-		b.data[index] ^= (1 << offset)
-	}
+  b.data[index] &^= (1 << offset)
+}
+
+func (b *Bitmap) FlipBit(x, y uint) {
+	b.checkBounds(x, y)
+	index := b.getIndex(x, y)
+	offset := b.getOffset(x, y)
+  b.data[index] ^= (1 << offset)
 }
 
 func (b *Bitmap) Clear() {
