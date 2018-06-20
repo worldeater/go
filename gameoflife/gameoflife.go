@@ -7,8 +7,8 @@ import (
 	"os"
 	"os/signal"
 	"time"
-	"worldi.de/src/go/gameoflife/grid"
-	"worldi.de/src/go/terminal"
+	"github.com/worldeater/go/gameoflife/grid"
+	"github.com/worldeater/go/terminal"
 )
 
 var interrupted bool = false

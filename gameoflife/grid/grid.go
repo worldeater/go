@@ -3,7 +3,7 @@ package grid
 import (
 	"fmt"
   "hash/crc32"
-	"worldi.de/src/go/bitmap"
+	"github.com/worldeater/go/bitmap"
 )
 
 type Grid struct {
