@@ -4,11 +4,11 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"github.com/worldeater/go/gameoflife/grid"
+	"github.com/worldeater/go/terminal"
 	"os"
 	"os/signal"
 	"time"
-	"github.com/worldeater/go/gameoflife/grid"
-	"github.com/worldeater/go/terminal"
 )
 
 var interrupted bool = false

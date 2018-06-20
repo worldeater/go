@@ -2,8 +2,8 @@ package grid
 
 import (
 	"fmt"
-  "hash/crc32"
 	"github.com/worldeater/go/bitmap"
+	"hash/crc32"
 )
 
 type Grid struct {
@@ -107,6 +107,5 @@ func (g *Grid) IsAlive(x2, y2 int) int {
 }
 
 func (g *Grid) Checksum() uint32 {
-  return crc32.ChecksumIEEE(*g.Raw())
+	return crc32.ChecksumIEEE(*g.Raw())
 }
-
