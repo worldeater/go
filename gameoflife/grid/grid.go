@@ -93,10 +93,10 @@ func (g *Grid) IsAlive(x2, y2 int) int {
 		x    uint = uint(x2)
 		y    uint = uint(y2)
 	)
-	if x < 0 {
+	if x2 < 0 {
 		x = w - 1
 	}
-	if y < 0 {
+	if y2 < 0 {
 		y = h - 1
 	}
 	if g.GetBit(x%w, y%h) {
