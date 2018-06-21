@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/worldeater/go/gameoflife/grid"
 	"github.com/worldeater/go/terminal"
+	"math/rand"
 	"os"
 	"os/signal"
 	"time"
@@ -64,6 +65,7 @@ func main() {
 	newGen := &grid[1]
 	lastChksum := curGen.Checksum()
 
+	rand.Seed(time.Now().UnixNano())
 	curGen.Randomize()
 	initSigHandling()
 	terminal.HideCursor()
