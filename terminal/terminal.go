@@ -4,19 +4,27 @@ import (
 	"fmt"
 )
 
-func Home() {
-	fmt.Printf("\033[H")
+type EsacpeSequence string
+
+const (
+	cursorHome   EsacpeSequence = "\033[H"
+	eraseDisplay EsacpeSequence = "\033[2J"
+	showCursor   EsacpeSequence = "\033[?25h"
+	hideCursor   EsacpeSequence = "\033[?25l"
+)
+
+func CursorHome() {
+	fmt.Printf("%v", cursorHome)
 }
 
-func Clear() {
-	Home()
-	fmt.Printf("\033[2J")
-}
-
-func HideCursor() {
-	fmt.Printf("\033[?25l")
+func EraseDisplay() {
+	fmt.Printf("%v", eraseDisplay)
 }
 
 func ShowCursor() {
-	fmt.Printf("\033[?25h")
+	fmt.Printf("%v", showCursor)
+}
+
+func HideCursor() {
+	fmt.Printf("%v", hideCursor)
 }

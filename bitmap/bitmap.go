@@ -12,81 +12,79 @@ const (
 
 type Bitmap struct {
 	data   []byte
-	width  uint
-	height uint
+	width  int
+	height int
 }
 
-func (b *Bitmap) getIndex(x, y uint) uint {
-	return (x + b.width*y) / bitsPerByte
-}
-
-func (b *Bitmap) getOffset(x, y uint) uint {
-	return (x + b.width*y) % bitsPerByte
-}
-
-func (b *Bitmap) checkBounds(x, y uint) {
-	if (x > b.width-1) || (y > b.height-1) {
-		panic(fmt.Sprintf("Bitmap index out of bounds: %v/%v", x, y))
+func New(width, height int) Bitmap {
+	if (width < 0) || (height < 0) {
+		panic(fmt.Sprintf("Bitmap size is negative: %v/%v", width, height))
 	}
-}
 
-func (b *Bitmap) Size() (width, height uint) {
-	return b.width, b.height
-}
-
-func (b *Bitmap) Init(width, height uint) {
+	// make our byte array big enough to hold all bits
 	sizeInBytes := ((width * height) + bitsPerByte - 1) / bitsPerByte
-	b.data = make([]byte, sizeInBytes)
-	b.width = width
-	b.height = height
-}
 
-func (b *Bitmap) GetBit(x, y uint) bool {
-	b.checkBounds(x, y)
-	index := b.getIndex(x, y)
-	offset := b.getOffset(x, y)
-	return ((b.data[index] >> offset) & 1) == 1
-}
-
-func (b *Bitmap) SetBit(x, y uint, bit bool) {
-	b.checkBounds(x, y)
-	index := b.getIndex(x, y)
-	offset := b.getOffset(x, y)
-	b.data[index] |= (1 << offset)
-}
-
-func (b *Bitmap) ClearBit(x, y uint) {
-	b.checkBounds(x, y)
-	index := b.getIndex(x, y)
-	offset := b.getOffset(x, y)
-	b.data[index] &^= (1 << offset)
-}
-
-func (b *Bitmap) FlipBit(x, y uint) {
-	b.checkBounds(x, y)
-	index := b.getIndex(x, y)
-	offset := b.getOffset(x, y)
-	b.data[index] ^= (1 << offset)
-}
-
-func (b *Bitmap) Clear() {
-	for i := range b.data {
-		b.data[i] = 0
+	return Bitmap{
+		data:   make([]byte, sizeInBytes),
+		width:  width,
+		height: height,
 	}
 }
 
-func (b *Bitmap) Fill() {
-	for i := range b.data {
-		b.data[i] = allBitsSet
+func (bmap *Bitmap) getIndex(x, y int) int {
+	return (x + bmap.width*y) / bitsPerByte
+}
+
+func (bmap *Bitmap) getOffset(x, y int) uint {
+	return uint((x + bmap.width*y) % bitsPerByte)
+}
+
+func (bmap *Bitmap) Size() (width, height int) {
+	return bmap.width, bmap.height
+}
+
+func (bmap *Bitmap) Get(x, y int) bool {
+	index := bmap.getIndex(x, y)
+	offset := bmap.getOffset(x, y)
+	return ((bmap.data[index] >> offset) & 1) == 1
+}
+
+func (bmap *Bitmap) Set(x, y int) {
+	index := bmap.getIndex(x, y)
+	offset := bmap.getOffset(x, y)
+	bmap.data[index] |= (1 << offset)
+}
+
+func (bmap *Bitmap) Clear(x, y int) {
+	index := bmap.getIndex(x, y)
+	offset := bmap.getOffset(x, y)
+	bmap.data[index] &^= (1 << offset)
+}
+
+func (bmap *Bitmap) Toggle(x, y int) {
+	index := bmap.getIndex(x, y)
+	offset := bmap.getOffset(x, y)
+	bmap.data[index] ^= (1 << offset)
+}
+
+func (bmap *Bitmap) ClearAll() {
+	for i := range bmap.data {
+		bmap.data[i] = 0
 	}
 }
 
-func (b *Bitmap) Randomize() {
-	for i := range b.data {
-		b.data[i] = byte(rand.Intn(255))
+func (bmap *Bitmap) SetAll() {
+	for i := range bmap.data {
+		bmap.data[i] = allBitsSet
 	}
 }
 
-func (b *Bitmap) Raw() *[]byte {
-	return &b.data
+func (bmap *Bitmap) Randomize() {
+	for i := range bmap.data {
+		bmap.data[i] = byte(rand.Intn(255))
+	}
+}
+
+func (bmap *Bitmap) RawData() *[]byte {
+	return &bmap.data
 }
